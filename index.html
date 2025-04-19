@@ -1,0 +1,739 @@
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram Clone</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+</head>
+<body>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+    body {
+      background-color: #fafafa;
+      display: flex;
+      justify-content: center;
+    }
+    .container {
+      width: 100%;
+      max-width: 935px;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 20px;
+    }
+    .feed {
+      flex: 1;
+      max-width: 614px;
+    }
+    .stories {
+      display: flex;
+      overflow-x: auto;
+      padding: 15px;
+      background-color: #fff;
+      border: 1px solid #dbdbdb;
+      border-radius: 5px;
+    }
+    .story {
+      text-align: center;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+    .story img {
+      width: 66px;
+      height: 66px;
+      border-radius: 50%;
+      padding: 2px;
+      background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af);
+    }
+    .story p {
+      font-size: 12px;
+      margin-top: 5px;
+      overflow-wrap: anywhere;
+    }
+    .post {
+      background: #fff;
+      border: 1px solid #dbdbdb;
+      border-radius: 3px;
+      margin-top: 20px;
+    }
+    .post-header {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+    }
+    .post-header img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .post-img {
+      width: 100%;
+    }
+    .post-actions {
+      display: flex;
+      padding: 10px;
+    }
+    .post-actions i {
+      font-size: 20px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    .post-actions .liked {
+      color: red;
+    }
+    .post-content {
+      padding: 0 10px 10px;
+    }
+    .comment-box {
+      padding: 10px;
+      border-top: 1px solid #dbdbdb;
+    }
+    .comment-box input {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: none;
+    }
+    .sidebar {
+      width: 293px;
+    }
+    .chat-icon {
+      text-align: right;
+      font-size: 24px;
+      margin-top: 10px;
+    }
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .sidebar {
+        display: none;
+      }
+    }
+  </style>
+<style data-id="immersive-translate-input-injected-css">.immersive-translate-input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 2147483647;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.immersive-translate-attach-loading::after {
+  content: " ";
+
+  --loading-color: #f78fb6;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: block;
+  margin: 12px auto;
+  position: relative;
+  color: white;
+  left: -100px;
+  box-sizing: border-box;
+  animation: immersiveTranslateShadowRolling 1.5s linear infinite;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-2000%, -50%);
+  z-index: 100;
+}
+
+.immersive-translate-loading-spinner {
+  vertical-align: middle !important;
+  width: 10px !important;
+  height: 10px !important;
+  display: inline-block !important;
+  margin: 0 4px !important;
+  border: 2px rgba(221, 244, 255, 0.6) solid !important;
+  border-top: 2px rgba(0, 0, 0, 0.375) solid !important;
+  border-left: 2px rgba(0, 0, 0, 0.375) solid !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
+  -webkit-animation: immersive-translate-loading-animation 0.6s infinite linear !important;
+  animation: immersive-translate-loading-animation 0.6s infinite linear !important;
+}
+
+@-webkit-keyframes immersive-translate-loading-animation {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(359deg);
+  }
+}
+
+@keyframes immersive-translate-loading-animation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.immersive-translate-input-loading {
+  --loading-color: #f78fb6;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: block;
+  margin: 12px auto;
+  position: relative;
+  color: white;
+  left: -100px;
+  box-sizing: border-box;
+  animation: immersiveTranslateShadowRolling 1.5s linear infinite;
+}
+
+@keyframes immersiveTranslateShadowRolling {
+  0% {
+    box-shadow: 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0),
+      0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+  }
+
+  12% {
+    box-shadow: 100px 0 var(--loading-color), 0px 0 rgba(255, 255, 255, 0),
+      0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+  }
+
+  25% {
+    box-shadow: 110px 0 var(--loading-color), 100px 0 var(--loading-color),
+      0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+  }
+
+  36% {
+    box-shadow: 120px 0 var(--loading-color), 110px 0 var(--loading-color),
+      100px 0 var(--loading-color), 0px 0 rgba(255, 255, 255, 0);
+  }
+
+  50% {
+    box-shadow: 130px 0 var(--loading-color), 120px 0 var(--loading-color),
+      110px 0 var(--loading-color), 100px 0 var(--loading-color);
+  }
+
+  62% {
+    box-shadow: 200px 0 rgba(255, 255, 255, 0), 130px 0 var(--loading-color),
+      120px 0 var(--loading-color), 110px 0 var(--loading-color);
+  }
+
+  75% {
+    box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0),
+      130px 0 var(--loading-color), 120px 0 var(--loading-color);
+  }
+
+  87% {
+    box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0),
+      200px 0 rgba(255, 255, 255, 0), 130px 0 var(--loading-color);
+  }
+
+  100% {
+    box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0),
+      200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0);
+  }
+}
+
+.immersive-translate-toast {
+  display: flex;
+  position: fixed;
+  z-index: 2147483647;
+  left: 0;
+  right: 0;
+  top: 1%;
+  width: fit-content;
+  padding: 12px 20px;
+  margin: auto;
+  overflow: auto;
+  background: #fef6f9;
+  box-shadow: 0px 4px 10px 0px rgba(0, 10, 30, 0.06);
+  font-size: 15px;
+  border-radius: 8px;
+  color: #333;
+}
+
+.immersive-translate-toast-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.immersive-translate-toast-hidden {
+  margin: 0 20px 0 72px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.immersive-translate-toast-close {
+  color: #666666;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .immersive-translate-toast {
+    top: 0;
+    padding: 12px 0px 0 10px;
+  }
+  .immersive-translate-toast-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  .immersive-translate-toast-hidden {
+    margin: 10px auto;
+  }
+}
+
+.immersive-translate-modal {
+  display: none;
+  position: fixed;
+  z-index: 2147483647;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+  font-size: 15px;
+}
+
+.immersive-translate-modal-content {
+  background-color: #fefefe;
+  margin: 10% auto;
+  padding: 40px 24px 24px;
+  border: 1px solid #888;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 270px;
+  font-family: system-ui, -apple-system, "Segoe UI", "Roboto", "Ubuntu",
+    "Cantarell", "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  position: relative;
+}
+
+@media screen and (max-width: 768px) {
+  .immersive-translate-modal-content {
+    margin: 50% auto !important;
+  }
+}
+
+.immersive-translate-modal .immersive-translate-modal-content-in-input {
+  max-width: 500px;
+}
+.immersive-translate-modal-content-in-input .immersive-translate-modal-body {
+  text-align: left;
+  max-height: unset;
+}
+
+.immersive-translate-modal-title {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #333333;
+}
+
+.immersive-translate-modal-body {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  color: #333333;
+  word-break: break-all;
+  margin-top: 24px;
+}
+
+@media screen and (max-width: 768px) {
+  .immersive-translate-modal-body {
+    max-height: 250px;
+    overflow-y: auto;
+  }
+}
+
+.immersive-translate-close {
+  color: #666666;
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.immersive-translate-close:hover,
+.immersive-translate-close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.immersive-translate-modal-footer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.immersive-translate-btn {
+  width: fit-content;
+  color: #fff;
+  background-color: #ea4c89;
+  border: none;
+  font-size: 16px;
+  margin: 0 8px;
+  padding: 9px 30px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.immersive-translate-btn:hover {
+  background-color: #f082ac;
+}
+.immersive-translate-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.immersive-translate-btn:disabled:hover {
+  background-color: #ea4c89;
+}
+
+.immersive-translate-cancel-btn {
+  /* gray color */
+  background-color: rgb(89, 107, 120);
+}
+
+.immersive-translate-cancel-btn:hover {
+  background-color: hsl(205, 20%, 32%);
+}
+
+.immersive-translate-action-btn {
+  background-color: transparent;
+  color: #ea4c89;
+  border: 1px solid #ea4c89;
+}
+
+.immersive-translate-btn svg {
+  margin-right: 5px;
+}
+
+.immersive-translate-link {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-drag: none;
+  text-decoration: none;
+  color: #007bff;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+}
+
+.immersive-translate-primary-link {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-drag: none;
+  text-decoration: none;
+  color: #ea4c89;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+}
+
+.immersive-translate-modal input[type="radio"] {
+  margin: 0 6px;
+  cursor: pointer;
+}
+
+.immersive-translate-modal label {
+  cursor: pointer;
+}
+
+.immersive-translate-close-action {
+  position: absolute;
+  top: 2px;
+  right: 0px;
+  cursor: pointer;
+}
+
+.imt-image-status {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 16px !important;
+}
+.imt-image-status img,
+.imt-image-status svg,
+.imt-img-loading {
+  width: 28px !important;
+  height: 28px !important;
+  margin: 0 0 8px 0 !important;
+  min-height: 28px !important;
+  min-width: 28px !important;
+  position: relative !important;
+}
+.imt-img-loading {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAAtFBMVEUAAAD////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////oK74hAAAAPHRSTlMABBMIDyQXHwyBfFdDMSw+OjXCb+5RG51IvV/k0rOqlGRM6KKMhdvNyZBz9MaupmxpWyj437iYd/yJVNZeuUC7AAACt0lEQVRIx53T2XKiUBCA4QYOiyCbiAsuuGBcYtxiYtT3f6/pbqoYHVFO5r+iivpo6DpAWYpqeoFfr9f90DsYAuRSWkFnPO50OgR9PwiCUFcl2GEcx+N/YBh6pvKaefHlUgZd1zVe0NbYcQjGBfzrPE8Xz8aF+71D8gG6DHFPpc4a7xFiCDuhaWgKgGIJQ3d5IMGDrpS4S5KgpIm+en9f6PlAhKby4JwEIxlYJV9h5k5nee9GoxHJ2IDSNB0dwdad1NAxDJ/uXDHYmebdk4PdbkS58CIVHdYSUHTYYRWOJblWSyu2lmy3KNFVJNBhxcuGW4YBVCbYGRZwIooipHsNqjM4FbgOQqQqSKQQU9V8xmi1QlgHqQQ6DDBvRUVCDirs+EzGDGOQTCATgtYTnbCVLgsVgRE0T1QE0qHCFAht2z6dLvJQs3Lo2FQoDxWNUiBhaP4eRgwNkI+dAjVOA/kUrIDwf3CG8NfNOE0eiFotSuo+rBiq8tD9oY4Qzc6YJw99hl1wzpQvD7ef2M8QgnOGJfJw+EltQc+oX2yn907QB22WZcvlUpd143dqQu+8pCJZuGE4xCuPXJqqcs5sNpsI93Rmzym1k4Npk+oD1SH3/a3LOK/JpUBpWfqNySxWzCfNCUITuDG5dtuphrUJ1myeIE9bIsPiKrfqTai5WZxbhtNphYx6GEIHihyGFTI69lje/rxajdh0s0msZ0zYxyPLhYCb1CyHm9Qsd2H37Y3lugVwL9kNh8Ot8cha6fUNQ8nuXi5z9/ExsAO4zQrb/ev1yrCB7lGyQzgYDGuxq1toDN/JGvN+HyWNHKB7zEoK+PX11e12G431erGYzwmytAWU56fkMHY5JJnDRR2eZji3AwtIcrEV8Cojat/BdQ7XOwGV1e1hDjGGjXbdArm8uJZtCH5MbcctVX8A1WpqumJHwckAAAAASUVORK5CYII=");
+  background-size: 28px 28px;
+  animation: image-loading-rotate 1s linear infinite !important;
+}
+
+.imt-image-status span {
+  color: var(--bg-2, #fff) !important;
+  font-size: 14px !important;
+  line-height: 14px !important;
+  font-weight: 500 !important;
+  font-family: "PingFang SC", Arial, sans-serif !important;
+}
+
+@keyframes image-loading-rotate {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+</style></head>
+<body data-new-gr-c-s-check-loaded="14.1232.0" data-gr-ext-installed="">
+  <div class="container">
+    <div class="feed">
+      <div class="stories" id="storyBar">
+        <!-- Stories will be injected here -->
+      <div class="story">
+        <img src="https://i.pinimg.com/736x/7c/73/b6/7c73b6a1174eac19b20bbcbe9e617fc0.jpg" alt="user0_q622">
+        <p>noserin___</p>
+      </div><div class="story">
+        <img src="https://i.pinimg.com/736x/b6/12/38/b61238e3cb207adf54294e833cb8f6df.jpg" alt="user1_z1pa">
+        <p>yamakuji.02</p>
+      </div><div class="story">
+        <img src="https://i.pinimg.com/736x/f7/a0/ab/f7a0abfe9ade9d08152762ac81092ef7.jpg" alt="user2_16p3">
+        <p>01___oa</p>
+      </div><div class="story">
+        <img src="https://i.pinimg.com/736x/7b/05/b4/7b05b4c08e5987e0205358643b207117.jpg" alt="user3_9a66">
+        <p>koikazeni_01</p>
+      </div><div class="story">
+        <img src="https://i.pinimg.com/736x/93/ed/8e/93ed8e13ea9ac8cc41a8cfb52084d3af.jpg" alt="user4_70ou">
+        <p>shota9903</p>
+      </div><div class="story">
+        <img src="https://i.pinimg.com/736x/02/d5/73/02d573876fd24d7fe720ce25e609ced4.jpg" alt="user5_exgl">
+        <p>nishimakei56</p>
+      </div><div class="story">
+        <img src="https://i.pinimg.com/736x/58/1c/26/581c267db3b7f266d1d2bb63c4ef0c7e.jpg" alt="user6_40kq">
+        <p>__binibini</p>
+      </div><div class="story">
+        <img src="https://i.pinimg.com/736x/39/97/be/3997be395be2e89570898a9bf136a742.jpg" alt="user7_xxqt">
+        <p>jyinthehouse</p>
+      </div><div class="story">
+        <img src="https://i.pinimg.com/736x/a3/8c/5e/a38c5ea3865cdf84a3507736cc508ca2.jpg" alt="user8_vytg">
+        <p>the_blond_eee</p>
+      </div><div class="story">
+        <img src="https://i.pinimg.com/736x/f7/b2/30/f7b23078c6ae81612e7763755a181b88.jpg" alt="user9_4ml1">
+        <p>hibi_kkiii</p>
+      </div><div class="story">
+        <img src="https://i.pinimg.com/736x/3e/bc/26/3ebc26ef450e09849ee0e7f5ca126f9c.jpg" alt="user10_xziq">
+        <p>rikkkku0311</p>
+      </div><div class="story">
+        <img src="https://i.pinimg.com/736x/a6/c4/0b/a6c40baba8936d07372a9fd95adf7a2c.jpg" alt="user11_ve5c">
+        <p>yuushhhi.99_</p>
+      </div><div class="story">
+        <img src="https://i.pinimg.com/736x/07/bb/ce/07bbced35e0ae5967bbd04ee0b7fba5e.jpg" alt="user12_7fml">
+        <p>riki_nanan___</p>
+      </div><div class="story">
+        <img src="https://i.pinimg.com/736x/6e/61/06/6e6106b74938a73a23826da08fc4005f.jpg" alt="user13_kde7">
+        <p>ts1twosleep_04</p>
+      </div><div class="story">
+        <img src="https://i.pinimg.com/736x/9d/15/00/9d150006c9dc86c3e878e0d66459837c.jpg" alt="user14_q5kq">
+        <p>kwakyou__02</p>
+      </div><div class="story">
+        <img src="https://i.pinimg.com/736x/30/19/f3/3019f3b4809b51dab97b3e368f77d20d.jpg" alt="user15_1e54">
+        <p>hanin90711__</p>
+      </div><div class="story">
+        <img src="https://i.pinimg.com/736x/0d/97/7c/0d977cb2797210509494e21b775f2ace.jpg" alt="user16_uyje">
+        <p>clou_dyyyy01</p>
+      </div><div class="story">
+        <img src="https://i.pinimg.com/736x/1e/bf/c8/1ebfc8b3180a86b930325526767a9d6c.jpg" alt="user17_6jbc">
+        <p>__01__kenshi</p>
+      </div><div class="story">
+        <img src="https://i.pinimg.com/736x/a2/c1/a6/a2c1a6d01c77badbfb9c455d92788fd0.jpg" alt="user18_qvgg">
+        <p>jinheeeee____04</p>
+      </div><div class="story">
+        <img src="https://i.pinimg.com/736x/93/de/b8/93deb86f3f38c1fcf0ee8b3ef1a61a52.jpg" alt="user19_0m6b">
+        <p>takata__.k22</p>
+      </div></div>
+      <div id="posts"><div class="post">
+        <div class="post-header">
+          <img src="https://i.pinimg.com/736x/68/9a/fd/689afd1acc32742d7d4b784daaca4924.jpg" alt="avatar">
+          <span>____kei.02</span>
+        </div>
+        <img class="post-img" src="https://i.pinimg.com/736x/d9/fa/3e/d9fa3ed8598e23b632b025a595748239.jpg" alt="Post">
+        <div class="post-actions">
+          <i class="fa-heart like-btn fa-regular"></i>
+          <i class="fa-regular fa-comment"></i>
+          <i class="fa-regular fa-paper-plane"></i>
+        </div>
+        <div class="post-content">
+          <p><strong>____kei.02</strong>ルビィちゃん! はーい! 何が好き?
+チョコミント よりも あ・な・た</p>
+        </div>
+        <div class="comment-box">
+          <input type="text" placeholder="Add a comment..." onkeydown="submitComment(event)">
+        </div>
+      </div><div class="post">
+        <div class="post-header">
+          <img src="https://i.pinimg.com/736x/e9/28/f8/e928f87ab069724988efcc89889cdae4.jpg" alt="avatar">
+          <span>___01.oa</span>
+        </div>
+        <img class="post-img" src="https://i.pinimg.com/736x/2d/60/17/2d601716832c82eb7894c415c02f928d.jpg" alt="Post">
+        <div class="post-actions">
+          <i class="fa-regular fa-heart like-btn"></i>
+          <i class="fa-regular fa-comment"></i>
+          <i class="fa-regular fa-paper-plane"></i>
+        </div>
+        <div class="post-content">
+          <p><strong>___01.oa</strong>   髪を切ったばかり</p>
+        </div>
+        <div class="comment-box">
+          <input type="text" placeholder="Add a comment..." onkeydown="submitComment(event)">
+        </div>
+      </div><div class="post">
+        <div class="post-header">
+          <img src="https://i.pinimg.com/736x/31/cc/cc/31cccc09df0cd030044624a555a598d9.jpg" alt="avatar">
+          <span>tyintheoa___</span>
+        </div>
+        <img class="post-img" src="https://i.pinimg.com/736x/2c/db/91/2cdb91419633c25c50652ebe8ce81fb6.jpg" alt="Post">
+        <div class="post-actions">
+          <i class="fa-regular fa-heart like-btn"></i>
+          <i class="fa-regular fa-comment"></i>
+          <i class="fa-regular fa-paper-plane"></i>
+        </div>
+        <div class="post-content">
+          <p><strong>tyintheoa___</strong></p>
+        </div>
+        <div class="comment-box">
+          <input type="text" placeholder="Add a comment..." onkeydown="submitComment(event)">
+        </div>
+      </div><div class="post">
+        <div class="post-header">
+          <img src="https://i.pravatar.cc/32?u=user3_9a66" alt="avatar">
+          <span>000_55ra</span>
+        </div>
+        <img class="post-img" src="https://i.pinimg.com/736x/88/f9/67/88f967677efab44cf981f886dd8f9065.jpg" alt="Post">
+        <div class="post-actions">
+          <i class="fa-regular fa-heart like-btn"></i>
+          <i class="fa-regular fa-comment"></i>
+          <i class="fa-regular fa-paper-plane"></i>
+        </div>
+        <div class="post-content">
+          <p><strong>000_55ra</strong></p>
+        </div>
+        <div class="comment-box">
+          <input type="text" placeholder="Add a comment..." onkeydown="submitComment(event)">
+        </div>
+      </div></div>
+    </div>
+    <div class="sidebar">
+      <div class="chat-icon">
+        <i class="fa-regular fa-paper-plane"></i>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const names = Array.from({length: 20}, (_, i) => `user${i}_${Math.random().toString(36).substring(2, 6)}`);
+    const storyBar = document.getElementById('storyBar');
+    const postContainer = document.getElementById('posts');
+
+    names.forEach(name => {
+      const story = document.createElement('div');
+      story.className = 'story';
+      story.innerHTML = `
+        <img src="https://i.pravatar.cc/150?u=${name}" alt="${name}">
+        <p>${name}</p>
+      `;
+      storyBar.appendChild(story);
+    });
+
+    // Create 4 posts
+    for (let i = 0; i < 4; i++) {
+      const user = names[i];
+      const post = document.createElement('div');
+      post.className = 'post';
+      post.innerHTML = `
+        <div class="post-header">
+          <img src="https://i.pravatar.cc/32?u=${user}" alt="avatar">
+          <span>${user}</span>
+        </div>
+        <img class="post-img" src="https://source.unsplash.com/random/800x60${i}" alt="Post">
+        <div class="post-actions">
+          <i class="fa-regular fa-heart like-btn"></i>
+          <i class="fa-regular fa-comment"></i>
+          <i class="fa-regular fa-paper-plane"></i>
+        </div>
+        <div class="post-content">
+          <p><strong>${user}</strong> Enjoying the moment! #travel #life</p>
+        </div>
+        <div class="comment-box">
+          <input type="text" placeholder="Add a comment..." onkeydown="submitComment(event)">
+        </div>
+      `;
+      postContainer.appendChild(post);
+    }
+
+    // Toggle like
+    document.addEventListener('click', function (e) {
+      if (e.target.classList.contains('like-btn')) {
+        e.target.classList.toggle('fa-regular');
+        e.target.classList.toggle('fa-solid');
+        e.target.classList.toggle('liked');
+      }
+    });
+
+    function submitComment(e) {
+      if (e.key === 'Enter') {
+        alert('Comment submitted: ' + e.target.value);
+        e.target.value = '';
+      }
+    }
+  </script>
+
+ <script>
+    // 限時動態輪播
+    var swiper1 = new Swiper(".mySwiper", {
+      slidesPerView: 4,
+      spaceBetween: 10,
+      loop: false, // 不循環
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+    });
+
+    // 貼文輪播
+    var swiper2 = new Swiper(".mySwiper2", {
+      slidesPerView: 3,
+      spaceBetween: 30,
+      loop: false, // 不循環
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+    });
+  </script>
+
+</body>
+</html>
