@@ -653,47 +653,6 @@
     </div>
   </div>
 
-  <script>
-    const names = Array.from({length: 20}, (_, i) => `user${i}_${Math.random().toString(36).substring(2, 6)}`);
-    const storyBar = document.getElementById('storyBar');
-    const postContainer = document.getElementById('posts');
-
-    names.forEach(name => {
-      const story = document.createElement('div');
-      story.className = 'story';
-      story.innerHTML = `
-        <img src="https://i.pravatar.cc/150?u=${name}" alt="${name}">
-        <p>${name}</p>
-      `;
-      storyBar.appendChild(story);
-    });
-
-    // Create 4 posts
-    for (let i = 0; i < 4; i++) {
-      const user = names[i];
-      const post = document.createElement('div');
-      post.className = 'post';
-      post.innerHTML = `
-        <div class="post-header">
-          <img src="https://i.pravatar.cc/32?u=${user}" alt="avatar">
-          <span>${user}</span>
-        </div>
-        <img class="post-img" src="https://source.unsplash.com/random/800x60${i}" alt="Post">
-        <div class="post-actions">
-          <i class="fa-regular fa-heart like-btn"></i>
-          <i class="fa-regular fa-comment"></i>
-          <i class="fa-regular fa-paper-plane"></i>
-        </div>
-        <div class="post-content">
-          <p><strong>${user}</strong> Enjoying the moment! #travel #life</p>
-        </div>
-        <div class="comment-box">
-          <input type="text" placeholder="Add a comment..." onkeydown="submitComment(event)">
-        </div>
-      `;
-      postContainer.appendChild(post);
-    }
-
     // Toggle like
     document.addEventListener('click', function (e) {
       if (e.target.classList.contains('like-btn')) {
@@ -711,29 +670,6 @@
     }
   </script>
 
- <script>
-    // 限時動態輪播
-    var swiper1 = new Swiper(".mySwiper", {
-      slidesPerView: 4,
-      spaceBetween: 10,
-      loop: false, // 不循環
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-    });
-
-    // 貼文輪播
-    var swiper2 = new Swiper(".mySwiper2", {
-      slidesPerView: 3,
-      spaceBetween: 30,
-      loop: false, // 不循環
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-    });
-  </script>
 
 </body>
 </html>
